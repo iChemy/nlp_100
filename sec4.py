@@ -2,11 +2,11 @@ import os
 import sys
 import spacy
 import pandas as pd
-from pprint import pprint
 from functools import reduce
 import collections
 import matplotlib.pyplot as plt
 import seaborn as sns
+# from pprint import pprint
 
 # https://qiita.com/derodero24/items/b49dd92e14c7e7655ccc を参考にしている
 
@@ -34,11 +34,21 @@ def morpho_analysis():
 
 
 def morfo_dict_list_30() -> list[list[dict]]:
+    """
+    ```
+    {
+        "surface": 表層形,
+        "base": 基本形,
+        "pos": 品詞名,
+        "pos1": きめ細かな品詞
+    }
+    ``
+    """
     df = pd.read_csv("src/neko.txt.ginza", header=None, delimiter="\t")
     ret: list[list[dict]] = []
     sent: list[dict] = []
     for _, row in df.iterrows():
-        pos, *pos1 = row[4].split("-")
+        pos, *pos1 = str(row[4]).split("-")  # リストの先頭は pos に残りは pos1 に
         neko_dict = {"surface": row[1], "base": row[2], "pos": pos, "pos1": pos1}
         sent.append(neko_dict)
         if row[2] == "。":
@@ -150,14 +160,14 @@ def get_freq_hist_36():
 def get_neko_coll(sent: list[dict]) -> list[str]:
     idxs: set[int] = set([])
     for i, morp in enumerate(sent):
-        if morp["surface"] == "猫":
+        if morp["surface"] == "猫":  # base の方が良い説
             if i - 1 >= 0:
                 idxs.add(i - 1)
             if i + 1 < len(sent):
                 idxs.add(i + 1)
     ret = []
     for i in idxs:
-        ret.append(sent[i]["surface"])
+        ret.append(sent[i]["surface"])  # base の方が良い説
 
     return ret
 

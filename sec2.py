@@ -3,10 +3,14 @@ import sys
 from pprint import pprint
 
 
-def get_file() -> int:
-    return os.system(
-        "curl https://nlp100.github.io/data/popular-names.txt -o src/popular-names.txt"
-    )
+def get_file():
+    if (
+        os.system(
+            "curl https://nlp100.github.io/data/popular-names.txt -o src/popular-names.txt"
+        )
+        != 0
+    ):
+        sys.exit(1)
 
 
 def get_lines() -> list[str]:
@@ -66,9 +70,7 @@ def tab_to_space_11() -> str:
 
     を使うこと
     """
-    if get_file() != 0:
-        print("failed to get file")
-        return
+    get_file()
     data = get_data()
 
     replaced = data.replace("\t", " ")
@@ -88,9 +90,7 @@ def col_files_12():
     ```
     を使うこと
     """
-    if get_file() != 0:
-        print("failed to get file")
-        return
+    get_file()
     lines = get_lines()
 
     mat = [list(map(lambda col: col.strip("\n"), line.split("\t"))) for line in lines]
@@ -159,9 +159,7 @@ def head_lines_14():
     if len(sys.argv) < 2:
         return
     n = int(sys.argv[1])
-    if get_file() != 0:
-        print("failed to get file")
-        return
+    get_file()
     lines = get_lines()
     ret = "".join(lines[0:n])
     print(ret)
@@ -180,9 +178,7 @@ def tail_lines_15():
     if len(sys.argv) < 2:
         return
     n = int(sys.argv[1])
-    if get_file() != 0:
-        print("failed to get file")
-        return
+    get_file()
     lines = get_lines()
 
     ret = "".join(lines[len(lines) - n :])
@@ -202,9 +198,7 @@ def file_split_16():
     if len(sys.argv) < 2:
         return
     n = int(sys.argv[1])
-    if get_file() != 0:
-        print("failed to get file")
-        return
+    get_file()
     lines = get_lines()
     line_num = len(lines)
     chunk_size = (line_num + 1) // n
@@ -230,9 +224,7 @@ def name_set_17():
     ```
     を使うこと
     """
-    if get_file() != 0:
-        print("failed to get file")
-        return
+    get_file()
     lines = get_lines()
 
     mat = [list(map(lambda col: col.strip("\n"), line.split("\t"))) for line in lines]
@@ -250,9 +242,7 @@ def col_sort_18():
     ```
     を使うこと
     """
-    if get_file() != 0:
-        print("failed to get file")
-        return
+    get_file()
     lines = get_lines()
 
     mat = [list(map(lambda col: col.strip("\n"), line.split("\t"))) for line in lines]
@@ -269,9 +259,7 @@ def freq_19():
     ```
     を使うこと
     """
-    if get_file() != 0:
-        print("failed to get file")
-        return
+    get_file()
     lines = get_lines()
     mat = [list(map(lambda col: col.strip("\n"), line.split("\t"))) for line in lines]
     col1 = [r[0] for r in mat]

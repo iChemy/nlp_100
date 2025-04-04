@@ -17,7 +17,7 @@ def get_file():
         and (os.system("gunzip -d src/jawiki-country.json.gz")) != 0
         and (os.system("rm src/jawiki-country.json.gz")) != 0
     ):
-        sys.exit()
+        sys.exit(1)
 
 
 def get_british_json_text() -> str:
@@ -178,7 +178,7 @@ def extract_template_25() -> dict[str, str]:
     for match_ret in match_rets:
         ret_dict[match_ret[0]] = match_ret[1]
 
-    pprint(ret_dict)
+    # pprint(ret_dict)
 
     return ret_dict
 
@@ -197,7 +197,7 @@ def remove_emp_26() -> dict[str, str]:
     for k, v in temp_dict.items():
         temp_dict[k] = remove_emp(v)
 
-    pprint(temp_dict)
+    # pprint(temp_dict)
     return temp_dict
 
 
@@ -239,7 +239,7 @@ def remove_inner_link_27():
     for k, v in temp_dict.items():
         temp_dict[k] = remove_inner_link(v)
 
-    pprint(temp_dict)
+    # pprint(temp_dict)
     return temp_dict
 
 
@@ -251,7 +251,7 @@ def remove_markup_28() -> dict[str, str]:
     for k, v in temp_dict.items():
         temp_dict[k] = remove_lang_template(v)
 
-    pprint(temp_dict)
+    # pprint(temp_dict)
     return temp_dict
 
 
@@ -297,7 +297,6 @@ def get_country_image_29():
     """
     basic_info_dict = remove_markup_28()
     count_flag_img = basic_info_dict["国旗画像"].strip()
-    print(count_flag_img)
     S = requests.Session()
 
     URL = "https://en.wikipedia.org/w/api.php"
